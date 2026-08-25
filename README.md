@@ -24,6 +24,12 @@ are deliberately separated.
 For normal Windows installation, download and run `Yapper-4.0.0-Setup.exe`
 from the linked folder. Git and Python are not required.
 
+## Help improve Yapper
+
+Yapper gets better with real-world feedback. If you're comfortable, please use
+the in-app feedback tools to share anonymous diagnostics or selected dictations.
+Sharing is entirely optional, off by default, and nothing is sent automatically.
+
 ## Why Yapper exists
 
 Yapper began as a personal attempt to build a free, inspectable alternative to
