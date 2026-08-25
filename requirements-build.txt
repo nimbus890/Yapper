@@ -1,0 +1,3 @@
+-r requirements-semantic.txt
+pyinstaller==6.22.1
+

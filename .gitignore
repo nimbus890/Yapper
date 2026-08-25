@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+/.tools/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local runtime state (never publish)
+/data/
+/models/
+/logs/
+/.local/
+/vendor/
+*.log
+@AutomationLog.txt
+*.tmp
+api_key.bin
+history.jsonl
+last_transcript.txt
+metrics.jsonl
+settings.json
+personalization.json
+
+# Generated release artifacts
+/build/
+/dist/
+/release/
+*.spec.bak
+*.exe
+*.msi
+*.zip
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
