@@ -38,10 +38,17 @@ def render() -> list[Path]:
     window.target_label.setText("Typing into  /  ChatGPT")
     window.hero_status.setText("Ready. Hold Alt + Z and speak naturally.")
     window.raw_card.editor.setPlainText(
-        "Anyway yeah with that being said I'm not happy with the UI implementation."
+        "Hey team, quick update on the launch plan. We need to move the review "
+        "to Thursday, actually no, Friday morning. Before then I need a few "
+        "things colon number one finish the onboarding copy, number two check "
+        "the Windows installer, number three send Maya the final screenshots."
     )
     window.final_card.editor.setPlainText(
-        "Anyway, yeah, with that being said, I'm not happy with the UI implementation."
+        "Hey team, quick update on the launch plan. We need to move the review "
+        "to Friday morning. Before then, I need a few things:\n"
+        "1. Finish the onboarding copy\n"
+        "2. Check the Windows installer\n"
+        "3. Send Maya the final screenshots"
     )
     window._update_stats(
         {"words_today": 1248, "speaking_wpm": 147, "time_saved_minutes": 38, "total_words": 48290}
@@ -50,6 +57,25 @@ def render() -> list[Path]:
 
     target = PROJECT_ROOT / "docs" / "screenshots"
     target.mkdir(parents=True, exist_ok=True)
+    if "--github" in sys.argv:
+        window._apply_theme("dark", persist=False)
+        window._show_main_dashboard()
+        app.processEvents()
+        window._apply_state("ready")
+        window.health_dot.setStyleSheet(f"color: {window.theme_colors['green']};")
+        window.health_label.setText("Active")
+        window.system_label.setText("Medium  ·  CPU/INT8  ·  private local processing")
+        window.context_badge.setText("CONTEXT · READY")
+        window.formatter_state.setText("SMART")
+        window.cleanup_description.setText(
+            f"{window.cleanup_tooltips['smart']} · preservation checks passed"
+        )
+        app.processEvents()
+        path = target / "v39-dashboard-dark.png"
+        window.grab().save(str(path))
+        window.hide()
+        return [path]
+
     renders = []
     for name, action in (
         ("redesign-dictate.png", window._show_main_dashboard),
