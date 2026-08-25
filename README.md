@@ -1,5 +1,10 @@
 # yapper_ 4.0
 
+**Yapper: the open-source wrapper you don't need to pay for.**
+
+Because paying a monthly subscription for a wrapper around great open-source
+tools felt ridiculous.
+
 yapper_ is a free, open-source, offline-first Windows dictation application
 published by Nimbus. It records from a chosen microphone, transcribes locally
 with Faster-Whisper, applies optional cleanup, and inserts the result into the
