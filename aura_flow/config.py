@@ -60,6 +60,7 @@ class AppConfig:
     enable_complete_data_export: bool = False
     model_setup_completed: bool = False
     feedback_github_url: str = "https://github.com/nimbus890/Yapper/issues"
+    feedback_data_form_url: str = "https://docs.google.com/forms/d/e/1FAIpQLSfDQkJA68URLnjt4iJhjqKlj94EZ8Dj3GSAcfcSikeYfkvnfg/viewform?usp=publish-editor"
     feedback_email: str = ""
     paypal_url: str = ""
     upi_id: str = ""

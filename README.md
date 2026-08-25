@@ -81,6 +81,8 @@ stay on your computer under `%LOCALAPPDATA%\Nimbus\Yapper`.
 Model downloads contact their publishers. An online cleanup provider is
 contacted only if you enable and configure one. Feedback, diagnostics, and
 selected transcripts are opt-in, off by default, and never sent automatically.
+The Send data tab prepares a readable report and opens a Google Form; you still
+review and upload the file yourself.
 
 Read the full [privacy notes](docs/PRIVACY.md).
 

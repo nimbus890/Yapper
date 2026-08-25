@@ -21,6 +21,10 @@ An online cleanup provider is contacted only after a user explicitly enables
 and configures it. Model downloads contact the model publisher. Feedback and
 testing exports are created or sent only after explicit user action.
 
+The Feedback window's Send data tab creates a readable `.txt` report only after
+the user chooses a scope, reviews it, and confirms. Yapper then opens the
+published Google Form; the user must sign in and upload the file themselves.
+Nothing is uploaded automatically.
+
 API credentials are encrypted with Windows DPAPI for the current Windows user.
 They must never be copied into source control, diagnostics, or release files.
-

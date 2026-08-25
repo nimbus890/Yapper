@@ -25,7 +25,7 @@ def sanitized_settings(config) -> dict[str, object]:
             clean[key] = Path(value).name if value else None
         elif key in {
             "feedback_email", "paypal_url", "upi_id", "upi_display_name",
-            "feedback_github_url",
+            "feedback_github_url", "feedback_data_form_url",
         }:
             continue
         else:
@@ -45,6 +45,37 @@ def diagnostics_preview(config, history) -> str:
         f"Smart fallback rate: {analysis['smart_fallback_rate']}%\n"
         "No API keys, clipboard contents, cursor context, or unrelated files are included."
     )
+
+
+def create_form_data_export(
+    config, entries: list[dict[str, object]], destination: Path, scope: str,
+) -> Path:
+    """Create a safe, readable text export for the private Google Form."""
+    destination.mkdir(parents=True, exist_ok=True)
+    ordered_entries = list(reversed(entries))
+    payload = {
+        "format": "yapper-form-data-export",
+        "version": VERSION,
+        "created_at": datetime.now().astimezone().isoformat(),
+        "scope": scope,
+        "dictation_count": len(ordered_entries),
+        "dictations": ordered_entries,
+        "diagnostics": {
+            "settings": sanitized_settings(config),
+            "usage": analyze_usage(entries, config.typing_wpm_baseline),
+        },
+        "excluded": [
+            "API keys and tokens", "clipboard contents", "cursor context",
+            "personal vocabulary, replacements, and snippets", "audio files",
+            "unrelated files",
+        ],
+    }
+    encoded = json.dumps(payload, ensure_ascii=False, indent=2).encode("utf-8")
+    if len(encoded) > 10 * 1024 * 1024:
+        raise ValueError("This export is larger than the Google Form's 10 MB limit.")
+    output = destination / f"yapper-data-{datetime.now():%Y-%m-%d-%H%M%S}.txt"
+    output.write_bytes(encoded)
+    return output
 
 
 def create_testing_export(config, history, metrics_path: Path, destination: Path) -> Path:

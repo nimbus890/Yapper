@@ -9,7 +9,7 @@ from aura_flow.config import AppConfig
 from aura_flow.hotkeys import GlobalHotkeyController
 from aura_flow.pipeline import DictationPipeline
 from aura_flow.rickroll import discover_rick_media
-from aura_flow.support import create_testing_export, sanitized_settings
+from aura_flow.support import create_form_data_export, create_testing_export, sanitized_settings
 
 
 class V38FeatureTests(unittest.TestCase):
@@ -71,6 +71,26 @@ class V38FeatureTests(unittest.TestCase):
             self.assertIn("um raw", exported_history)
             self.assertNotIn("api_key_header", settings)
             self.assertNotIn("feedback_email", settings)
+
+    def test_form_export_is_plain_text_scoped_and_sanitized(self):
+        config = AppConfig(api_key_header="X-Secret-Key", feedback_email="owner@example.com")
+        entries = [{
+            "id": "entry", "timestamp": 1, "raw": "um private example",
+            "final": "Private example.", "app": "notepad.exe",
+        }]
+        with tempfile.TemporaryDirectory() as temp_name:
+            output = create_form_data_export(
+                config, entries, Path(temp_name), "selected dictation",
+            )
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(output.suffix, ".txt")
+            self.assertEqual(payload["scope"], "selected dictation")
+            self.assertEqual(payload["dictation_count"], 1)
+            self.assertEqual(payload["dictations"][0]["raw"], "um private example")
+            settings = payload["diagnostics"]["settings"]
+            self.assertNotIn("api_key_header", settings)
+            self.assertNotIn("feedback_email", settings)
+            self.assertNotIn("feedback_data_form_url", settings)
 
     def test_rick_media_finds_a_file_dropped_in_the_test_folder(self):
         with tempfile.TemporaryDirectory() as temp_name:
