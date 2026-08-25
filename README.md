@@ -1,2 +1,2 @@
 # Yapper
-open socuce wrapper you don need to pay for 
+open socuce wrapper you dont need to pay for 
