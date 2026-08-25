@@ -45,6 +45,8 @@ from .usage_analysis import analyze_usage
 from .theme import apply_soft_shadow
 from .support import create_testing_export
 from .download_manager import DownloadsPanel
+from .version import VERSION
+
 
 class PersonalizationPanel(QWidget):
     """Full in-dashboard personalization workspace with persistent sidebar navigation."""
@@ -98,6 +100,7 @@ class PersonalizationPanel(QWidget):
             ("Preferences", self._preferences_page()),
             ("Downloads", self.downloads_panel),
             ("API connection", self._api_page()),
+            ("About", self._about_page()),
         )
         for index, (title, page) in enumerate(page_specs):
             button = QPushButton(title)
@@ -213,6 +216,58 @@ class PersonalizationPanel(QWidget):
         self.analysis_detail.setObjectName("hint")
         self.analysis_detail.setWordWrap(True)
         layout.addWidget(self.analysis_detail)
+        layout.addStretch()
+        return page
+
+    def _about_page(self) -> QWidget:
+        page = QWidget()
+        layout = QVBoxLayout(page)
+        layout.setContentsMargins(0, 18, 24, 18)
+        layout.addWidget(
+            self._heading(
+                "About yapper_",
+                "Open source, local first, and deliberately yours.",
+            )
+        )
+        layout.addSpacing(24)
+
+        card = QFrame()
+        card.setObjectName("apiCard")
+        card_layout = QVBoxLayout(card)
+        card_layout.setContentsMargins(24, 22, 24, 22)
+        line = QLabel("A wrapper, yes. A rent-seeking wrapper, no.")
+        line.setObjectName("sectionLead")
+        line.setWordWrap(True)
+        card_layout.addWidget(line)
+        story = QLabel(
+            "I built yapper_ because I hated seeing wrappers around excellent "
+            "open-source tools turned into wild monthly bills. So I made an "
+            "open-source wrapper of my own. Open source for open source."
+        )
+        story.setWordWrap(True)
+        card_layout.addWidget(story)
+        card_layout.addSpacing(10)
+        first = QLabel(
+            "This is my first project. I hope you enjoy using it—and improving it."
+        )
+        first.setObjectName("hint")
+        first.setWordWrap(True)
+        card_layout.addWidget(first)
+        layout.addWidget(card)
+        layout.addSpacing(18)
+
+        privacy = QLabel(
+            "PRIVATE BY DEFAULT\n"
+            "Dictation, history, and local cleanup stay on this computer. "
+            "Nothing is shared unless you explicitly choose to export or send it."
+        )
+        privacy.setObjectName("hint")
+        privacy.setWordWrap(True)
+        layout.addWidget(privacy)
+        layout.addSpacing(10)
+        version = QLabel(f"yapper_ {VERSION}  ·  published by Nimbus  ·  MIT licensed")
+        version.setObjectName("fieldTitle")
+        layout.addWidget(version)
         layout.addStretch()
         return page
 
