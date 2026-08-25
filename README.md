@@ -9,6 +9,13 @@ Version 4.0 is the clean release baseline. Application resources, personal
 data, downloaded models, development tools, and generated release artifacts
 are deliberately separated.
 
+## Download for Windows
+
+**[Download the Yapper 4.0 Windows installer](https://drive.google.com/drive/folders/1zj7320R444bluO8H1Z6PfbQ57_kKFGqO?usp=sharing)**
+
+For normal Windows installation, download and run `Yapper-4.0.0-Setup.exe`
+from the linked folder. Git and Python are not required.
+
 ## Why Yapper exists
 
 Yapper began as a personal attempt to build a free, inspectable alternative to
