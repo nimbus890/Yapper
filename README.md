@@ -24,33 +24,117 @@ are deliberately separated.
 For normal Windows installation, download and run `Yapper-4.0.0-Setup.exe`
 from the linked folder. Git and Python are not required.
 
-## Help improve Yapper
+## What the hell is Yapper?
 
-Yapper gets better with real-world feedback. If you're comfortable, please use
-the in-app feedback tools to share anonymous diagnostics or selected dictations.
-Sharing is entirely optional, off by default, and nothing is sent automatically.
+Yapper is a free, open-source, local-first dictation app for Windows. Press a
+hotkey, speak naturally, and Yapper turns the resulting verbal chaos into clean
+text inside whichever app you are using.
 
-## Why Yapper exists
+It uses Faster-Whisper for local speech recognition and can optionally use a
+local Gemma model for cleanup. No subscription is required. Python is bundled.
+Your friend should be able to install it without receiving a computer-science
+degree first.
 
-Yapper began as a personal attempt to build a free, inspectable alternative to
-subscription-based voice-dictation tools such as Wispr Flow. The target was the
-same simple interaction—press a hotkey, speak naturally, and receive clean text
-in the active app—while keeping speech processing, cleanup, history, and model
-choice under the user's control.
+![Yapper's dark dashboard](docs/screenshots/v39-dashboard-dark.png)
 
-It is not a wrapper around a paid service. Faster-Whisper performs local speech
-recognition, an explicit rules layer protects commands and important literals,
-and optional local Gemma cleanup adds punctuation and structure without trying
-to rewrite the speaker's voice. Online formatting providers are optional; the
-default workflow remains local and has no subscription requirement.
+## Why does this exist?
 
-Yapper is an independent project and is not affiliated with Wispr Flow.
+I kept seeing excellent open-source tools wrapped in polished interfaces and
+sold back to people as wild monthly subscriptions. That felt ridiculous.
 
-## Project layout
+So I made an open-source wrapper of my own.
+
+**A wrapper, yes. A rent-seeking wrapper, no. Open source for open source.**
+
+Yapper began as my personal attempt to build a free, inspectable alternative to
+subscription dictation tools such as Wispr Flow. It is an independent project
+and is not affiliated with Wispr Flow.
+
+## Things Yapper does
+
+- Dictates into almost any Windows app with a global hotkey.
+- Transcribes locally with Faster-Whisper.
+- Cleans punctuation, lists, corrections, and formatting.
+- Offers optional local Gemma cleanup without rewriting your personality.
+- Remembers your vocabulary, replacements, snippets, and preferences.
+- Keeps a searchable local history.
+- Supports optional online formatting providers if you explicitly configure one.
+- Includes Tiny, Medium **(Recommended)**, and Gemma model downloads inside the app.
+- Runs on CPU and uses compatible NVIDIA hardware when available.
+- Charges exactly zero recurring monthly bills.
+
+## A couple things before you yap
+
+Windows may show a publisher warning because the current installer has not yet
+been digitally signed. The source and reproducible Windows packaging files are
+available in this repository for inspection.
+
+On first launch, Yapper offers Tiny, Medium **(Recommended)**, and Gemma. All
+three are selected initially, but you can uncheck anything or skip the setup.
+Gemma has its own Google license and requires your own Hugging Face read token.
+
+## Privacy, because obviously
+
+By default, recordings, transcripts, settings, personalization, and history
+stay on your computer under `%LOCALAPPDATA%\Nimbus\Yapper`.
+
+Model downloads contact their publishers. An online cleanup provider is
+contacted only if you enable and configure one. Feedback, diagnostics, and
+selected transcripts are opt-in, off by default, and never sent automatically.
+
+Read the full [privacy notes](docs/PRIVACY.md).
+
+## Help make Yapper less dumb
+
+Real voices, accents, microphones, names, and spectacularly messy sentences
+are the only way this gets better. If you are comfortable, use the in-app
+feedback tools to share anonymous diagnostics or a dictation you deliberately
+select. You see what is being shared, and you remain in control.
+
+Bugs, ideas, cleanup disasters, and unexpectedly brilliant results are all
+welcome in [GitHub Issues](https://github.com/nimbus890/Yapper/issues).
+
+## Who made this?
+
+Yapper is a first project created and directed by **Nimbus**. It was vibe-coded
+with an LLM as a coding contributor; Nimbus shaped the idea, product direction,
+personality, and testing.
+
+In other words: human taste, machine assistance, an unreasonable number of
+iterations, and somehow a real Windows installer at the end.
+
+## For people who actually want the code
+
+Use 64-bit Python 3.11:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-semantic.txt
+.\.venv\Scripts\python.exe main.py
+```
+
+Run the regression suite:
+
+```powershell
+.\.venv\Scripts\python.exe -m unittest discover -s tests -v
+```
+
+Build the bundled Windows app and installer:
+
+```powershell
+.\packaging\build.ps1
+```
+
+Python is bundled into the finished app. CUDA drivers are not installed or
+modified by Yapper. Trusted Authenticode signing requires a real code-signing
+certificate; see the [code-signing guide](docs/CODE_SIGNING.md).
+
+<details>
+<summary><strong>Project layout, for the curious</strong></summary>
 
 ```text
 aura_flow/          application package
-assets/             read-only packaged resources
+assets/             packaged icons, media, and other resources
 docs/               privacy, installer, media, and design documentation
 packaging/          Windows executable and installer definitions
 tests/              automated regression suite
@@ -60,52 +144,16 @@ setup_models.py     transactional speech-model installer
 setup_semantic.py   gated Gemma installer
 ```
 
-Personal data and downloaded models are not part of this tree. Installed builds
-use `%LOCALAPPDATA%\Nimbus\Yapper`; portable builds use a `portable.flag` beside
-the executable.
+Personal data, downloaded models, development tools, and generated release
+artifacts are deliberately separated from the source tree.
 
-## Development
+</details>
 
-Use 64-bit Python 3.11. Python 3.10 is not supported by the pinned NumPy build.
+## The fine print
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-semantic.txt
-.\.venv\Scripts\python.exe main.py
-```
+Yapper's source code is available under the [MIT License](LICENSE). Dependencies,
+downloaded models, and optional media keep their own licenses and terms. See the
+[third-party notices](THIRD_PARTY_NOTICES.md) and [media notice](docs/MEDIA_NOTICE.md).
 
-Models are optional at installation time and are downloaded into the separate
-user model directory. The app runs on CPU and uses compatible NVIDIA hardware
-when CTranslate2 reports CUDA support. Do not install GPU drivers as part of
-the application installer.
-
-On first launch, Yapper opens its in-app Downloads page with Tiny, Medium, and
-Gemma selected. Users can uncheck any model or skip setup entirely. Medium is
-the recommended dictation model. Gemma remains gated by Google's license and a
-user-supplied Hugging Face read token, which Yapper uses only for that download.
-
-## Tests
-
-```powershell
-.\.venv\Scripts\python.exe -m unittest discover -s tests -v
-```
-
-## Building and releasing
-
-The `packaging` folder contains the reproducible Windows build scaffolding.
-Python is bundled into `Yapper.exe`; end users do not need Python installed.
-The generated executable and installer must be tested on a clean Windows 10 or
-11 x64 system before release.
-
-Setting the publisher metadata to Nimbus is not a digital signature. Trusted
-Authenticode signing requires a valid code-signing certificate and protected
-private key supplied during the release build. See the
-[Windows code-signing guide](docs/CODE_SIGNING.md) for the practical personal,
-open-source, and Store options.
-
-## Licensing
-
-The source code is available under the [MIT License](LICENSE). Dependencies,
-downloaded models, and optional media remain subject to their own terms. See
-[third-party notices](THIRD_PARTY_NOTICES.md), [privacy](docs/PRIVACY.md), and
-[media notice](docs/MEDIA_NOTICE.md).
+Use it. Improve it. Fork it. Just don't put it behind a wild monthly bill and
+pretend we learned nothing.
