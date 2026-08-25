@@ -10,6 +10,9 @@ published by Nimbus. It records from a chosen microphone, transcribes locally
 with Faster-Whisper, applies optional cleanup, and inserts the result into the
 active application.
 
+**Transparency note:** Yapper was vibe-coded with an LLM as a coding
+contributor. Nimbus shaped the idea, product direction, personality, and testing.
+
 Version 4.0 is the clean release baseline. Application resources, personal
 data, downloaded models, development tools, and generated release artifacts
 are deliberately separated.

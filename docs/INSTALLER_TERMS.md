@@ -1,5 +1,12 @@
 # Before installing yapper_
 
+The open-source wrapper you don't need to pay for.
+
+No subscription. No separate Python setup. Just install, speak, and yap.
+
+Yapper was vibe-coded with an LLM as a coding contributor, with product
+direction and testing by Nimbus.
+
 yapper_ is free and open-source software published by Nimbus under the MIT
 License. The installer should display the complete `LICENSE` file and require
 the user to continue before installation.

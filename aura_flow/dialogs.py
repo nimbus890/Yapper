@@ -253,6 +253,12 @@ class PersonalizationPanel(QWidget):
         first.setObjectName("hint")
         first.setWordWrap(True)
         card_layout.addWidget(first)
+        made_with = QLabel(
+            "Vibe-coded with an LLM as a coding contributor; shaped, directed, and tested by Nimbus."
+        )
+        made_with.setObjectName("hint")
+        made_with.setWordWrap(True)
+        card_layout.addWidget(made_with)
         layout.addWidget(card)
         layout.addSpacing(18)
 
