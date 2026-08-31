@@ -47,8 +47,7 @@ So I made an open-source wrapper of my own.
 **A wrapper, yes. A rent-seeking wrapper, no. Open source for open source.**
 
 Yapper began as my personal attempt to build a free, inspectable alternative to
-subscription dictation tools such as Wispr Flow. It is an independent project
-and is not affiliated with Wispr Flow.
+subscription dictation tools such as Wispr Flow.
 
 ## Things Yapper does
 
